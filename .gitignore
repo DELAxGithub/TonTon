@@ -76,3 +76,9 @@ yarn-error.log
 
 # Environment variables
 .env
+
+# Figma configuration
+figma.config.json
+
+# Generated components
+src/components/generated/
