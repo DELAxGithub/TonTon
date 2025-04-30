@@ -82,3 +82,21 @@ figma.config.json
 
 # Generated components
 src/components/generated/
+
+# Backup files
+*.backup
+
+# Build logs
+build.log
+errormsg/
+
+# Development files
+.cursor/
+bun.lock
+
+# Test files
+src/mocks/
+src/tests/
+
+# Assets (temporary)
+src/assets/
