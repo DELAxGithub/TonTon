@@ -26,4 +26,47 @@ export interface DailySummary {
 export interface UserSettings {
   openaiApiKey?: string;
   dailyCalorieGoal: number;
-} 
+}
+
+// 基本データ型
+export interface DailyBalance {
+  date: string;
+  intake: number;
+  burned: number;
+  net: number;
+}
+
+export interface MonthlyGoal {
+  month: string;
+  current: number;
+  goal: number;
+  remaining: number;
+  percent: number;
+}
+
+// コンポーネントのProps型
+export interface MonthlySavingProgressProps {
+  data: {
+    percent: number;
+    current: number;
+    goal: number;
+    remaining: number;
+  };
+}
+
+export interface BalanceProps {
+  data: {
+    intake: number;
+    burned: number;
+    net: number;
+  };
+}
+
+// ナビゲーション用の型
+export type RootStackParamList = {
+  Home: undefined;
+  Weight: undefined;
+  Meal: undefined;
+  Workout: undefined;
+  Record: undefined;
+}; 
