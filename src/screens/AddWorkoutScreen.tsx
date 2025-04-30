@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { CalorieUtils } from '../utils/calorie';
-import { HealthKitUtils } from '../utils/healthkit';
+// import { HealthKitUtils } from '../utils/healthkit';  // 一時的にコメントアウト
 
 const AddWorkoutScreen = () => {
   const navigation = useNavigation();
@@ -19,36 +19,36 @@ const AddWorkoutScreen = () => {
   const [type, setType] = useState('');
   const [duration, setDuration] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isHealthKitAvailable, setIsHealthKitAvailable] = useState(false);
-  const [isSyncing, setIsSyncing] = useState(false);
+  // const [isHealthKitAvailable, setIsHealthKitAvailable] = useState(false);  // 一時的にコメントアウト
+  // const [isSyncing, setIsSyncing] = useState(false);  // 一時的にコメントアウト
 
-  useEffect(() => {
-    if (Platform.OS === 'ios') {
-      initializeHealthKit();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (Platform.OS === 'ios') {
+  //     initializeHealthKit();
+  //   }
+  // }, []);
 
-  const initializeHealthKit = async () => {
-    const available = await HealthKitUtils.initialize();
-    setIsHealthKitAvailable(available);
-  };
+  // const initializeHealthKit = async () => {
+  //   const available = await HealthKitUtils.initialize();
+  //   setIsHealthKitAvailable(available);
+  // };
 
-  const handleSyncWorkouts = async () => {
-    if (!isHealthKitAvailable) {
-      Alert.alert('エラー', 'HealthKitが利用できません');
-      return;
-    }
+  // const handleSyncWorkouts = async () => {
+  //   if (!isHealthKitAvailable) {
+  //     Alert.alert('エラー', 'HealthKitが利用できません');
+  //     return;
+  //   }
 
-    setIsSyncing(true);
-    try {
-      await HealthKitUtils.syncTodayWorkouts();
-      navigation.goBack();
-    } catch (error) {
-      Alert.alert('エラー', '運動データの同期に失敗しました');
-    } finally {
-      setIsSyncing(false);
-    }
-  };
+  //   setIsSyncing(true);
+  //   try {
+  //     await HealthKitUtils.syncTodayWorkouts();
+  //     navigation.goBack();
+  //   } catch (error) {
+  //     Alert.alert('エラー', '運動データの同期に失敗しました');
+  //   } finally {
+  //     setIsSyncing(false);
+  //   }
+  // };
 
   const handleSave = async () => {
     if (!calories || !type || !duration) {
@@ -102,7 +102,7 @@ const AddWorkoutScreen = () => {
           value={type}
           onChangeText={setType}
           placeholder="例: ランニング"
-          editable={!isLoading && !isSyncing}
+          editable={!isLoading}
         />
 
         <Text style={styles.label}>時間 (分)</Text>

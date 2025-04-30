@@ -1,66 +1,35 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
-import { RootStackNavigationProp } from '../navigation/types';
-import { DailySummary } from '../types';
-import { CalorieUtils } from '../utils/calorie';
+import React from 'react';
+import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import MonthlySavingProgress from '../components/home/MonthlySavingProgress';
+import TodayBalance from '../components/home/TodayBalance';
+import YesterdayBalance from '../components/home/YesterdayBalance';
+import BottomNavBar from '../components/common/BottomNavBar';
+import mockData from '../mocks/dailyData';
 
-const HomeScreen = () => {
-  const navigation = useNavigation<RootStackNavigationProp>();
-  const [summary, setSummary] = useState<DailySummary | null>(null);
-
-  const loadDailySummary = async () => {
-    const today = CalorieUtils.getDateString();
-    const updatedSummary = await CalorieUtils.updateDailySummary(today);
-    setSummary(updatedSummary);
-  };
-
-  // 画面がフォーカスされるたびにデータを更新
-  useFocusEffect(
-    React.useCallback(() => {
-      loadDailySummary();
-    }, [])
-  );
-
+export const HomeScreen = () => {
   return (
     <View style={styles.container}>
-      <View style={styles.balanceContainer}>
-        <Text style={styles.balanceTitle}>今日の貯金</Text>
-        <Text style={styles.balanceAmount}>
-          {summary ? `${summary.balance} kcal` : '0 kcal'}
+      {/* ヘッダー */}
+      <View style={styles.header}>
+        <Text style={styles.title}>TonTon</Text>
+        <Text style={styles.date}>
+          {new Date().toLocaleDateString('ja-JP', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+          })}
         </Text>
-        <View style={styles.detailsContainer}>
-          <Text style={styles.detailText}>
-            摂取: {summary?.totalIntakeCalories || 0} kcal
-          </Text>
-          <Text style={styles.detailText}>
-            消費: {summary?.totalBurnedCalories || 0} kcal
-          </Text>
-        </View>
       </View>
 
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('AddMeal')}
-        >
-          <Text style={styles.buttonText}>食事を記録</Text>
-        </TouchableOpacity>
+      {/* メインコンテンツ */}
+      <ScrollView style={styles.content}>
+        <MonthlySavingProgress data={mockData.monthly} />
+        <TodayBalance data={mockData.today} />
+        <YesterdayBalance data={mockData.yesterday} />
+      </ScrollView>
 
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('AddWorkout')}
-        >
-          <Text style={styles.buttonText}>運動を記録</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.settingsButton}
-          onPress={() => navigation.navigate('Settings')}
-        >
-          <Text style={styles.buttonText}>設定</Text>
-        </TouchableOpacity>
-      </View>
+      {/* ナビゲーションバー */}
+      <BottomNavBar />
     </View>
   );
 };
@@ -68,54 +37,29 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: '#f5f5f5',
   },
-  balanceContainer: {
-    alignItems: 'center',
-    marginVertical: 40,
+  header: {
+    backgroundColor: '#ffffff',
+    paddingTop: 60,
+    paddingBottom: 16,
+    paddingHorizontal: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e5e5e5',
   },
-  balanceTitle: {
+  title: {
     fontSize: 24,
-    color: '#333',
-    marginBottom: 10,
-  },
-  balanceAmount: {
-    fontSize: 48,
     fontWeight: 'bold',
-    color: '#f4511e',
+    color: '#333333',
+    marginBottom: 8,
   },
-  detailsContainer: {
-    marginTop: 20,
-    alignItems: 'center',
+  date: {
+    fontSize: 14,
+    color: '#666666',
   },
-  detailText: {
-    fontSize: 16,
-    color: '#666',
-    marginVertical: 5,
-  },
-  buttonContainer: {
+  content: {
     flex: 1,
-    justifyContent: 'center',
-    gap: 20,
-  },
-  button: {
-    backgroundColor: '#f4511e',
-    padding: 20,
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  settingsButton: {
-    backgroundColor: '#666',
-    padding: 20,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginTop: 20,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
+    padding: 16,
   },
 });
 
