@@ -1,0 +1,11 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# ドキュメントファイルの自動追加
+git add docs/**/*.md
+git add docs/**/*.adoc
+git add **/*RULES.md
+git add **/*.md
+
+# 変更があった場合のみコミットを続行
+git diff --cached --quiet || exit 0 

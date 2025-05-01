@@ -1,0 +1,9 @@
+[alias]
+    # ドキュメント保護付きチェックアウト
+    safe-checkout = "!f() { ./scripts/protect-docs.sh backup && git checkout $@ && ./scripts/protect-docs.sh restore; }; f"
+    
+    # ドキュメント保護付きリセット
+    safe-reset = "!f() { ./scripts/protect-docs.sh backup && git reset $@ && ./scripts/protect-docs.sh restore; }; f"
+    
+    # ドキュメント保護付きクリーン
+    safe-clean = "!f() { ./scripts/protect-docs.sh backup && git clean $@ && ./scripts/protect-docs.sh restore; }; f" 
